@@ -1,0 +1,21 @@
+{
+  "name": "Handlebars-Homework",
+  "version": "1.0.0",
+  "description": "_aka: 'Eat da Burger' homework with a gluten-free kind of bun_",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "mysql": "^2.15.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.1"
+  }
+}

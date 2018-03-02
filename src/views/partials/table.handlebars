@@ -1,0 +1,55 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Color</th>
+			<th scope="col" colspan="2">Bunned</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each colors}}
+		<tr>
+			<th scope="row">{{id}}</th>
+			<td style="color: {{color}}">{{color}}</td>
+			<td>
+				<button data-id="{{id}}" data-for="{{color}}" class="btn btn-outline-secondary btn-color-bun {{#unless bunned}}new{{/unless}}" type="button">
+				{{#if bunned}}
+				Re-Color
+				{{else}}
+				(New!) Color
+				{{/if}}
+				</button>
+			</td>
+			<td>
+				<button class="btn btn-outline-danger" type="button"><i class="fas fa-times fa-3x"></i></button>
+			</td>
+		</tr>
+		{{/each}}
+	</tbody>
+</table>
+
+<script type="text/javascript">
+	Handlebars.registerHelper('style_button', function() {
+	  return ;
+	});
+
+	$('.btn-color-bun.new').click(function(){
+		let which = $(this).data('id');
+		console.log('data id...', which);
+		$.ajax({
+			method: 'PUT',
+			url: `/colors/${which}`,
+			data: {bunned: 1}
+		}).then(()=>{
+			// if only handlebars had two-way data binding...
+			$(this).removeClass('new');
+			$(this).text('Re-Color');
+		});
+	});
+
+	$('.btn-color-bun').click(function(){
+		$('.st4, .st5').css('fill', $(this).data('for'));
+	});
+
+
+</script>
