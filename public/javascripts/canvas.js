@@ -15,7 +15,7 @@ icon_3.src = '/images/icon_comb.svg';
 function follow(mouse) {
   // console.log(mouse);
   // console.log(mouse.clientX, mouse.layerX, mouse.offsetX, mouse.x, mouse.pageX, mouse.movementX);
-  console.log(mouse.clientX, mouse.movementX);
+  // console.log(mouse.clientX, mouse.movementX);
   let wx = wh = 100;
   let mx = Math.max( Math.min(mouse.clientX, width - wx), 0);
   let my = Math.max( Math.min(mouse.clientY, height - wh), 0);

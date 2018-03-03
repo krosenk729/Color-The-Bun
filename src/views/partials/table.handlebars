@@ -21,18 +21,14 @@
 				</button>
 			</td>
 			<td>
-				<button class="btn btn-outline-danger" type="button"><i class="fas fa-times fa-3x"></i></button>
+				<button data-id="{{id}}" class="btn btn-outline-danger btn-color-delete" type="button">Remove</button>
 			</td>
 		</tr>
 		{{/each}}
 	</tbody>
 </table>
 
-<script type="text/javascript">
-	Handlebars.registerHelper('style_button', function() {
-	  return ;
-	});
-
+<!-- <script type="text/javascript">
 	$('.btn-color-bun.new').click(function(){
 		let which = $(this).data('id');
 		console.log('data id...', which);
@@ -41,7 +37,6 @@
 			url: `/colors/${which}`,
 			data: {bunned: 1}
 		}).then(()=>{
-			// if only handlebars had two-way data binding...
 			$(this).removeClass('new');
 			$(this).text('Re-Color');
 		});
@@ -51,5 +46,12 @@
 		$('.st4, .st5').css('fill', $(this).data('for'));
 	});
 
-
-</script>
+	$('.btn-color-delete').click(function(){
+		let which = $(this).data('id');
+		$.ajax({
+			method: 'DELETE',
+			url: `/colors/${which}`
+		});
+		$(this).parentsUntil('tbody').remove();
+	});
+</script> -->

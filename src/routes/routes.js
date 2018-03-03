@@ -43,7 +43,8 @@ router.route('/colors')
 			if(err){
 				return res.status(500).send('Whoops').end();
 			}
-			res.json(data);
+			// res.redirect('/');
+			res.json(data['insertId']);
 		});
 });
 

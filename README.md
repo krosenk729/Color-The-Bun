@@ -16,6 +16,5 @@ _aka: 'Eat da Burger' homework with a gluten-free kind of bun_
 
 *Open*
 + Express redirect 
-+ Icon font working
 + Canvas stretching
 + On click, change css
