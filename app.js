@@ -10,7 +10,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static( path.join(__dirname, 'public') ));
 
-// exphbs.registerPartial(__dirname + '/src/views/partials');
+// View Engine
+// ===========================================================
 app.engine('handlebars', exphbs({
 	extname: 'handlebars', 
 	defaultLayout: 'main', 
@@ -20,7 +21,7 @@ app.engine('handlebars', exphbs({
 app.set('views', path.join(__dirname + '/src/views'));
 app.set('view engine', 'handlebars');
 
-// Serve Views
+// Routes
 // ===========================================================
 const routes = require('./src/routes/routes');
 app.use('/', routes);

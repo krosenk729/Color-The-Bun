@@ -8,44 +8,28 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 const parseUrlencoded = bodyParser.urlencoded({extended: false});
 
-// Database
+// ORMs
 // ===========================================================
-const sql = require('mysql');
-const connection = sql.createConnection({
-  host: 'localhost',
-  port: '3306',
-  user: 'root',
-  password: 'password1',
-  database: 'my_database'
-});
+const ORM = require('../db/orm');
+const orm = new ORM();
 
 // Get or Add Data 
 // ===========================================================
 
 router.route('/colors')
 .get(function(req, res){
-	connection.query(`
-		SELECT * 
-		FROM bun_colors
-		ORDER BY id;`, 
-		function(err, data){
-			if(err){ return res.status(500).send('Whoops').end(); }
-			res.json(data);
-		});
+	orm.fetchColors((err, data)=>{
+		if(err){ return res.status(500).send('Whoops').end()}
+		res.json(data);
+	});
 })
 .post(function(req, res){
 	if(!req.body.color){ return res.send('Nope'); }
-	connection.query(`
-		INSERT INTO bun_colors (color)
-		VALUES (?);`, 
-		[req.body.color],
-		function(err, data){
-			if(err){
-				return res.status(500).send('Whoops').end();
-			}
-			// res.redirect('/');
-			res.json(data['insertId']);
-		});
+	orm.addColor(req.body.color, (err, data)=>{
+		if(err){ return res.status(500).send('Whoops').end()}
+		// res.redirect('/');
+		res.json(data['insertId']);
+	});
 });
 
 // Update or Delete by ID
@@ -53,28 +37,15 @@ router.route('/colors')
 
 router.route('/colors/:id')
 .get(function(req, res){
-	connection.query(`
-		SELECT * 
-		FROM bun_colors
-		WHERE id = ?;`,
-		[req.params.id], 
-		function(err, data){
-			if(err){ return res.status(500).send('Whoops').end(); }
-			res.json(data);
-		});
+	orm.fetchColor(req.params.id, (err, data)=>{
+		if(err){ return res.status(500).send('Whoops').end()}
+		res.json(data);
+	});
 })
 .put(function(req, res){
 	if(!req.body.bunned){ return res.send('Nope'); }
-	console.log(req.body.bunned, req.params.id);
-
-	connection.query(`
-		UPDATE bun_colors
-		SET bunned = ?
-		WHERE id = ?`,
-		[req.body.bunned, req.params.id],
-		function(err, data){
+	orm.updateColor(req.params.id, 'bunned', req.body.bunned, (err, data)=>{
 		if(err){
-			console.log(err);
 			return res.status(500).send('Whoops').end();
 		} else if (data.changedRows === 0){
 			return res.status(404).send('No thank you').end();
@@ -84,17 +55,14 @@ router.route('/colors/:id')
 	});
 })
 .delete(function(req, res){
-	connection.query(`
-		DELETE FROM bun_colors
-		WHERE id = ?`,
-		[req.params.id],
-		function(err, data){
+	orm.removeColor(req.params.id, (err, data)=>{
 		if(err){
 			return res.status(500).send('Whoops').end();
 		} else if (data.changedRows === 0){
 			return res.status(404).send('idk').end();
 		}
 		return res.status(200).send('Yuppers').end();
+
 	});
 });
 
@@ -102,17 +70,13 @@ router.route('/colors/:id')
 // ===========================================================
 router.route('/')
 .get(function(req, res) {
-	connection.query(`
-		SELECT * 
-		FROM bun_colors
-		ORDER BY id;`, 
-		function(err, data){
-			if(err){ return res.status(500).send('Whoops').end(); }
-			res.render('body',{
-				title: 'Color that Bun',
-				colors: [...data]
-			});
+	orm.fetchColors((err, data)=>{
+		if(err){ return res.status(500).send('Whoops').end(); }
+		res.render('body',{
+			title: 'Color that Bun',
+			colors: [...data]
 		});
+	});
 });
 
 /*app.get(/^[^(api)]|^[^(images)]|^[^(javascripts)]|^[^(public)]|^[^(styles)]/i, function(req, res){
