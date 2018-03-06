@@ -3,19 +3,20 @@ const ctx = canvas.getContext('2d');
 
 canvas.width = document.querySelector('body').offsetWidth;
 canvas.height = document.querySelector('body').offsetHeight;
+canvas.style.width = '100%';
+canvas.style.height = '100%';
 
 ///////////////////////////////////
 // Icon class
 ///////////////////////////////////
 
 //https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image
-const Icon = function(img, offset, vel){
+const Icon = function(img, vel){
   this.icon = new Image();
   this.icon.src = img;
-  this.offset = offset;
   this.vel = vel;
-  this.width = 100;
-  this.height = 100;
+  this.width = this.icon.src.offsetWidth || 100;
+  this.height = this.icon.src.offsetHeight || 100;
   this.x = 0;
   this.y = 0;
 }
@@ -25,25 +26,18 @@ Icon.prototype.draw = function(){
 }
 
 Icon.prototype.move = function(){
-  if(this.x !== mouseX && this.y != mouseY){ 
-    this.x = newCoord(this.x, mouseX, 0, 100, this.vel);
-    this.y = newCoord(this.y, mouseY, 0, 100, this.vel)
-  }
+  // if(this.x !== mouseX || this.y != mouseY){ 
+    this.x = newCoord(this.x, mouseX - (this.width/2), 0, canvas.width - this.width, this.vel);
+    this.y = newCoord(this.y, mouseY - (this.height/2), 0, canvas.height - this.height, this.vel)
+  // }
+  // console.log('this xy', this.x, this.y);
   this.draw();
-  // this.move(mouseX, mouseY);
-  // setTimeout(()=> this.move(mouseX, mouseY), 3000);
-  // let dirX = mouseX - this.x < 0 ? -1 : 1;
-  // let moveX = dirX * Math.min(this.vel , Math.abs(mouseX - this.x));
-  // this.x = Math.min(Math.max(0, this.x + moveX), canvas.width);
-
-  // let dirY = mouseY - this.y < 0 ? -1 : 1;
-  // let moveY = dirY * Math.min(this.vel , Math.abs(mouseY - this.y));
-  // this.y = Math.min(Math.max(0, this.y + moveY), canvas.height);
 }
 
 let newCoord = function(oldCoord, newDest, min, max, vel){
   let dir = newDest - oldCoord > 0 ? 1 : -1;
-  return oldCoord + dir * Math.min(Math.abs(newDest - oldCoord), vel);
+  let val = oldCoord + dir * Math.min(Math.abs(newDest - oldCoord), vel);
+  return Math.min(Math.max(val, min), max);
 }
 
 ///////////////////////////////////
@@ -51,9 +45,9 @@ let newCoord = function(oldCoord, newDest, min, max, vel){
 ///////////////////////////////////
 let mouseX = mouseY = 0;
 const icons = [
-  new Icon('images/icon_brush.svg', 2, 10),
-  new Icon('images/icon_dryer.svg', 2, 12),
-  new Icon('images/icon_comb.svg', 2, 15)
+  new Icon('images/icon_brush.svg', 2.5),
+  new Icon('images/icon_dryer.svg', 4),
+  new Icon('images/icon_comb.svg', 1.5)
 ];
 
 const followLoop = function(){
@@ -66,13 +60,12 @@ const followLoop = function(){
 }
 followLoop();
 
-window.addEventListener('resize', (e) =>{
-  width = canvas.width = document.querySelector('body').offsetWidth;
-  height = canvas.height = document.querySelector('body').offsetHeight;
-});
+// window.addEventListener('resize', (e) =>{
+//   width = canvas.width = document.querySelector('body').offsetWidth;
+//   height = canvas.height = document.querySelector('body').offsetHeight;
+// });
 
 window.addEventListener('mousemove', (e) => {
-  // follow(e.clientX, e.clientY);
   mouseX = e.clientX;
   mouseY = e.clientY;
   // window.requestAnimationFrame(followLoop);
