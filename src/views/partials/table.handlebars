@@ -1,3 +1,4 @@
+<div class="table-responsive-md">
 <table class="table">
 	<thead>
 		<tr>
@@ -27,31 +28,4 @@
 		{{/each}}
 	</tbody>
 </table>
-
-<!-- <script type="text/javascript">
-	$('.btn-color-bun.new').click(function(){
-		let which = $(this).data('id');
-		console.log('data id...', which);
-		$.ajax({
-			method: 'PUT',
-			url: `/colors/${which}`,
-			data: {bunned: 1}
-		}).then(()=>{
-			$(this).removeClass('new');
-			$(this).text('Re-Color');
-		});
-	});
-
-	$('.btn-color-bun').click(function(){
-		$('.st4, .st5').css('fill', $(this).data('for'));
-	});
-
-	$('.btn-color-delete').click(function(){
-		let which = $(this).data('id');
-		$.ajax({
-			method: 'DELETE',
-			url: `/colors/${which}`
-		});
-		$(this).parentsUntil('tbody').remove();
-	});
-</script> -->
+</div>
