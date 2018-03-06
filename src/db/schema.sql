@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS my_database;
-USE my_database;
+CREATE DATABASE IF NOT EXISTS jdjkhrjps1cgj89h;
+USE jdjkhrjps1cgj89h;
 
 CREATE TABLE bun_colors (
 	id INT NOT NULL AUTO_INCREMENT,

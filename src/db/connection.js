@@ -1,13 +1,14 @@
 const sql = require('mysql');
+let connection;
 if (process.env.JAWSDB_URL){
-	const connection = sql.createConnection(process.env.JAWSDB_URL);
+	connection = sql.createConnection(process.env.JAWSDB_URL);
 } else {
-	const connection = sql.createConnection({
+	connection = sql.createConnection({
 		host: 'localhost',
 		port: '3306',
 		user: 'root',
 		password: 'password1',
-		database: 'my_database'
+		database: 'jdjkhrjps1cgj89h'
 	});
 }
 
