@@ -50,7 +50,6 @@ new Icon('/images/icon_comb.svg', 2.5)
 
 const followLoop = function(){
   requestAnimationFrame(followLoop);
-  console.log(mouseX, mouseY);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   icons.forEach(icon =>{
     icon.move();
@@ -58,14 +57,8 @@ const followLoop = function(){
 }
 followLoop();
 
-// window.addEventListener('resize', (e) =>{
-//   width = canvas.width = document.querySelector('body').offsetWidth;
-//   height = canvas.height = document.querySelector('body').offsetHeight;
-// });
-
 window.addEventListener('mousemove', (e) => {
   mouseX = e.clientX;
   mouseY = e.clientY;
-  // window.requestAnimationFrame(followLoop);
 });
 })();
