@@ -3,7 +3,7 @@ const ORM = function() {
 	this.fetchColors = function(callback){
 		connection.query(`
 			SELECT * 
-			FROM bun_colors
+			FROM jdjkhrjps1cgj89h.bun_colors
 			ORDER BY id;`, 
 			function(err, data){
 				callback(err, data);
@@ -13,7 +13,7 @@ const ORM = function() {
 	this.fetchColor = function(colorId, callback){
 		connection.query(`
 			SELECT * 
-			FROM bun_colors
+			FROM jdjkhrjps1cgj89h.bun_colors
 			WHERE id = ?;`,
 			[colorId],
 			function(err, data){
@@ -23,7 +23,7 @@ const ORM = function() {
 
 	this.addColor = function(color, callback){
 		connection.query(`
-			INSERT INTO bun_colors (color)
+			INSERT INTO jdjkhrjps1cgj89h.bun_colors (color)
 			VALUES (?);`, 
 			[color],
 			function(err, data){
@@ -33,7 +33,7 @@ const ORM = function() {
 
 	this.updateColor = function(colorId, colorCol, colorVal, callback){
 		connection.query(`
-			UPDATE bun_colors
+			UPDATE jdjkhrjps1cgj89h.bun_colors
 			SET ?? = ?
 			WHERE id = ?`,
 			[colorCol, colorVal, colorId],
@@ -44,7 +44,7 @@ const ORM = function() {
 
 	this.removeColor = function(colorId, callback){
 		connection.query(`
-			DELETE FROM bun_colors
+			DELETE FROM jdjkhrjps1cgj89h.bun_colors
 			WHERE id = ?`,
 			[colorId],
 			function(err, data){
