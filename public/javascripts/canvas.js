@@ -1,38 +1,71 @@
+(function(){
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
-let width = canvas.width = document.querySelector('body').offsetWidth;
-let height = canvas.height = document.querySelector('body').offsetHeight;
+canvas.width = document.querySelector('body').offsetWidth;
+canvas.height = document.querySelector('body').offsetHeight;
+canvas.style.width = '100%';
+canvas.style.height = '100%';
 
-const icon_1 = new Image();
-const icon_2 = new Image();
-const icon_3 = new Image();
+///////////////////////////////////
+// Icon class
+///////////////////////////////////
 
-icon_1.src = '/images/icon_brush.svg';
-icon_2.src = '/images/icon_dryer.svg';
-icon_3.src = '/images/icon_comb.svg';
-
-function follow(mouse) {
-  // console.log(mouse);
-  // console.log(mouse.clientX, mouse.layerX, mouse.offsetX, mouse.x, mouse.pageX, mouse.movementX);
-  // console.log(mouse.clientX, mouse.movementX);
-  let wx = wh = 100;
-  let mx = Math.max( Math.min(mouse.clientX, width - wx), 0);
-  let my = Math.max( Math.min(mouse.clientY, height - wh), 0);
-  
-  ctx.clearRect(0, 0, width, height);
-  ctx.drawImage(icon_1, mx, my,  wx, wh);
-  ctx.drawImage(icon_2, mx, my, wx, wh);;
-  ctx.drawImage(icon_3, mx, my, wx, wh);
-
+//https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image
+const Icon = function(img, vel){
+  this.icon = new Image();
+  this.icon.src = img;
+  this.vel = vel;
+  this.width = this.icon.src.offsetWidth || 100;
+  this.height = this.icon.src.offsetHeight || 100;
+  this.x = 0;
+  this.y = 0;
 }
 
-window.addEventListener('resize', (e) =>{
-  width = canvas.width = document.querySelector('body').offsetWidth;
-  height = canvas.height = document.querySelector('body').offsetHeight;
-});
+Icon.prototype.draw = function(){
+  ctx.drawImage(this.icon, this.x, this.y, this.width, this.height);
+}
 
+Icon.prototype.move = function(){
+  this.x = newCoord(this.x, mouseX - (this.width/2), 0, canvas.width - this.width, this.vel);
+  this.y = newCoord(this.y, mouseY - (this.height/2), 0, canvas.height - this.height, this.vel)
+  this.draw();
+}
+
+let newCoord = function(oldCoord, newDest, min, max, vel){
+  let dir = newDest - oldCoord > 0 ? 1 : -1;
+  let val = oldCoord + dir * Math.min(Math.abs(newDest - oldCoord), vel);
+  return Math.min(Math.max(val, min), max);
+}
+
+///////////////////////////////////
+// Canvas Animations
+///////////////////////////////////
+let mouseX = mouseY = 0;
+const icons = [
+new Icon('/images/icon_brush.svg', 3.8),
+new Icon('/images/icon_dryer.svg', 5),
+new Icon('/images/icon_comb.svg', 2.5)
+];
+
+const followLoop = function(){
+  requestAnimationFrame(followLoop);
+  console.log(mouseX, mouseY);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  icons.forEach(icon =>{
+    icon.move();
+  });
+}
+followLoop();
+
+// window.addEventListener('resize', (e) =>{
+//   width = canvas.width = document.querySelector('body').offsetWidth;
+//   height = canvas.height = document.querySelector('body').offsetHeight;
+// });
 
 window.addEventListener('mousemove', (e) => {
-  follow(e);
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  // window.requestAnimationFrame(followLoop);
 });
+})();
