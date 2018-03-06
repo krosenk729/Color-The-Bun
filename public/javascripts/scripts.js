@@ -40,7 +40,7 @@
 			<th scope="row">${id}</th>
 			<td style="color: ${color}">${color}</td>
 			<td>
-			<button data-id="${id}" data-for="${color}" class="btn btn-outline-secondary btn-color-bun " type="button">
+			<button data-id="${id}" data-for="${color}" class="btn btn-outline-secondary btn-color-bun new" type="button">
 			(New!) Color
 			</button>
 			</td>
