@@ -61,4 +61,32 @@ window.addEventListener('mousemove', (e) => {
   mouseX = e.clientX;
   mouseY = e.clientY;
 });
+
+
+///////////////////////////////////
+// Canvas Size
+///////////////////////////////////
+// function resizeGame() {
+//   var carea = document.getElementById('canvas-area');
+//   var widthToHeight = 1000 / 800;
+//   var newWidth = window.innerWidth;
+//   var newHeight = window.innerHeight;
+//   var newWidthToHeight = newWidth / newHeight;
+
+//   if (newWidthToHeight < widthToHeight) {
+//     newWidth = newHeight * widthToHeight;
+//     // carea.style.height = newHeight + 'px';
+//     // carea.style.width = newWidth + 'px';
+//   } else {
+//     newHeight = newWidth / widthToHeight;
+//     // carea.style.width = newWidth + 'px';
+//     // carea.style.height = newHeight + 'px';
+//   }
+//   canvas.width = newWidth;
+//   canvas.height = newHeight;
+// }
+
+// window.addEventListener('resize', resizeGame, false);
+// window.addEventListener('orientationchange', resizeGame, false);
+
 })();
